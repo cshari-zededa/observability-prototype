@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: opentelemetrycollector
+spec:
+  ports:
+  - name: grpc-otlp
+    port: 4317
+    protocol: TCP
+    targetPort: 4317
+    nodePort: 30080
+  - name: prometheus-port 
+    port: 8889 
+    protocol: TCP
+    targetPort:  8889
+    nodePort: 30082
+  selector:
+    app.kubernetes.io/name: opentelemetrycollector
+  type: NodePort 

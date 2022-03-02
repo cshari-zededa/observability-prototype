@@ -1,0 +1,47 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: collector-config
+data:
+  collector.yaml: |
+    receivers:
+      otlp:
+        protocols: 
+          grpc:
+
+    processors:
+      batch:
+      batch/2:
+        timeout: 2s
+        send_batch_size: 1000
+        send_batch_max_size: 1100
+      cumulativetodelta:
+              metrics:
+                     - an_important_metric
+
+    exporters:
+      prometheus:
+        endpoint: 0.0.0.0:8889
+        resource_to_telemetry_conversion:
+                enabled: true
+        namespace: "testapp"
+      logging:
+        loglevel: debug
+
+      prometheusremotewrite:
+        namespace: "cshari"
+        resource_to_telemetry_conversion:
+                enabled: true
+        endpoint: https://prometheus-prod-10-prod-us-central-0.grafana.net/api/prom/push
+        tls:
+           insecure: true
+        headers:
+         Authorization: "Basic MzQ4OTAwOmV5SnJJam9pTTJJNVlUQTFaR0pqT0dSaU1tWmxZVEUzWWpkaE56VXpNREF4TlRFelpXTXhZMlpoWlRabU15SXNJbTRpT2lKd2NtOXRMV2R5WVdaaGJtRXRjbVZ0YjNSbExYZHlhWFJsSWl3aWFXUWlPall4TURFM05IMD0=" 
+
+    service:
+      pipelines:
+        metrics:
+          receivers: [otlp]
+          processors: [batch/2]
+          exporters: [prometheus, prometheusremotewrite, logging]
