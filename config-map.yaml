@@ -33,11 +33,11 @@ data:
         namespace: "cshari"
         resource_to_telemetry_conversion:
                 enabled: true
-        endpoint: https://prometheus-prod-10-prod-us-central-0.grafana.net/api/prom/push
+        endpoint: https://prometheus-prod-<your_grafana_prom>/api/prom/push
         tls:
            insecure: true
         headers:
-         Authorization: "Basic MzQ4OTAwOmV5SnJJam9pTTJJNVlUQTFaR0pqT0dSaU1tWmxZVEUzWWpkaE56VXpNREF4TlRFelpXTXhZMlpoWlRabU15SXNJbTRpT2lKd2NtOXRMV2R5WVdaaGJtRXRjbVZ0YjNSbExYZHlhWFJsSWl3aWFXUWlPall4TURFM05IMD0=" 
+         Authorization: "Basic <your_api_token>" 
 
     service:
       pipelines:
